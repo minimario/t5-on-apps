@@ -197,6 +197,8 @@ def run_test(sample, test=None, debug=False):
                     except:
                         True
                     results.append(tmp_result)
+                    if tmp_result != True:
+                        return results
 
                     # reset the alarm
                     signal.alarm(0)
@@ -206,7 +208,8 @@ def run_test(sample, test=None, debug=False):
                     if debug:
                         print(f"Standard input runtime error or time limit exceeded error = {e}")
                     results.append(-1)
-                    continue
+                    return results
+
                 faulthandler.disable()
                 signal.alarm(0)
                 if debug:
@@ -232,6 +235,7 @@ def run_test(sample, test=None, debug=False):
                         signal.alarm(0)
                         print(f"Call-based runtime error or time limit exceeded error = {repr(e)}{e}")
                         results.append(-1)
+                        return results
                     signal.alarm(0)
 
                 if not passed:
@@ -249,6 +253,8 @@ def run_test(sample, test=None, debug=False):
                 if custom_compare_(output, in_outs['outputs'][index]):
                     tmp_result = True
                     results.append(tmp_result)
+                    if tmp_result != True:
+                        return results
                     continue
 
                 # ground truth sequences are expressed as lists not tuples
@@ -385,6 +391,8 @@ def run_test(sample, test=None, debug=False):
                     print("PASSED")
  
                 results.append(tmp_result)
+                if tmp_result != True:
+                    return results
                 
                 if debug:
                     nl = "\n"

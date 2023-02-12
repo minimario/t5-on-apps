@@ -33,9 +33,12 @@ def check_correctness(sample, generation, timeout, debug=True):
     return result[0]
 
 def evaluate_generations_problem(problem_generations, sample, debug : bool = False, verbose=False):
+    # import time
+    # t = time.time()
     res = []
     # loop over the generations
     for o_idx, o in enumerate(problem_generations):
+        # print("starting: ", time.time() - t)
         curr_res = [-2]
         try:
             curr_res = check_correctness(sample, o, timeout=TIMEOUT, debug=debug)
@@ -59,7 +62,7 @@ def evaluate_generations_problem(problem_generations, sample, debug : bool = Fal
         finally:
             assert isinstance(curr_res, list)
             res.append(curr_res)
-    
+    # print("time to evaluate: ", time.time() - t)
     if verbose:
         for i, r in enumerate(problem_generations):
             print("Sample\n")
